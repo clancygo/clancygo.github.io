@@ -8,7 +8,7 @@
 <meta name="keywords" content="">
 <meta name="description" content="思考 记录 表达">
 <meta name="theme-color" content="">
-<title>Mageblog</title>
+<title>春节观影吐槽（李焕英与唐探3） | Mageblog</title>
 <link rel="shortcut icon" href="/favicon.ico?v=1614344484044">
 <link rel="stylesheet" href="/media/css/pisces.css">
 <link rel="stylesheet" href="/media/fonts/font-awesome.css">
@@ -38,6 +38,8 @@
 
 
 
+  <meta name="description" content="春节观影吐槽（李焕英与唐探3）" />
+  <meta name="keywords" content="日常" />
 </head>
 
 <body>
@@ -69,7 +71,7 @@
           
             
             
-            <li class="nav-item nav-item-active">
+            <li class="nav-item ">
               
               
                 <a href="/" target="_self">
@@ -146,66 +148,98 @@
     <div
       class="section-layout pisces ">
       <div class="section-layout-wrapper">
-        <div id="sidebarMeta" class="sidebar">
-    
-<div class="sidebar-wrapper box-shadow-wrapper bg-color">
-  <div class="sidebar-item">
-    <img class="site-author-image right-motion" src="/images/avatar.png"/>
-    <p class="site-author-name"></p>
-    
-  </div>
-  <div class="sidebar-item side-item-stat right-motion">
-    <div class="sidebar-item-box">
-      <a href="/archives/">
         
-        <span class="site-item-stat-count">1</span>
-        <span class="site-item-stat-name language" data-lan="article">文章</span>
-      </a>
+
+<div class="sidebar">
+  
+    <div class="sidebar-box box-shadow-wrapper bg-color right-motion" id="sidebar">
+      
+      <div class="sidebar-body pisces" id="sidebar_body">
+        
+      </div>
     </div>
-    <div class="sidebar-item-box">
-      <a href="">
-        <span class="site-item-stat-count">1</span>
-        <span class="site-item-stat-name language" data-lan="category">分类</span>
-      </a>
-    </div>
-    <div class="sidebar-item-box">
-      <a href="/tags/">
-        <span class="site-item-stat-count">1</span>
-        <span class="site-item-stat-name language" data-lan="tag">标签</span>
-      </a>
-    </div>
-  </div>
   
-    
-  
-  
-
-  
-
-
-
-</div>
 </div>
 <script>
-  let sidebarMeta = document.querySelector('#sidebarMeta');
-  let scheme = '';
-  let sidebarWrapper = document.querySelector('.sidebar-wrapper');
-  if (sidebarMeta && (scheme === 'pisces' || scheme === 'gemini')) {
-    document.addEventListener('scroll', function(e) {
-      if (document.scrollingElement.scrollTop > parseInt(sidebarMeta.style.marginTop) + 10) {
-        sidebarWrapper.classList.add('home-sidebar-fixed')
-      } else {
-        sidebarWrapper.classList.remove('home-sidebar-fixed')
+  const SIDEBAR_TITLE_ACTIVE = 'sidebar-title-active';
+  const SIDEBAR_BODY_ACTIVE = 'sidebar-body-active';
+  const SLIDE_UP_IN = 'slide-up-in';
+
+  let sidebar = document.querySelector('#sidebar'),
+  tocSideBar = document.querySelector('#tocSideBar'),
+  metaSideBar = document.querySelector('#metaSideBar'),
+  postToc = document.querySelector('#post_toc'),
+  postSiteMeta = document.querySelector('#post_side_meta'),
+  sidebarTitle = document.querySelector('.sidebar-title'),
+  sidebarBody = document.querySelector('#sidebar_body');
+
+  tocSideBar && tocSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  metaSideBar && metaSideBar.addEventListener('click', (e) => {
+    toggleSidebar(e);
+  });
+
+  function toggleSidebar(e) {
+    let currentTitle = document.querySelector("."+SIDEBAR_TITLE_ACTIVE);
+    if (currentTitle == e.srcElement) {
+      return ;
+    }
+    let current, showElement, hideElement;
+    if (e.srcElement == metaSideBar) {
+      showElement = postSiteMeta;
+      hideElement = postToc;
+    } else if (e.srcElement == tocSideBar){
+      showElement = postToc;
+      hideElement = postSiteMeta;
+    }
+    currentTitle.classList.remove(SIDEBAR_TITLE_ACTIVE);
+    e.srcElement.classList.add(SIDEBAR_TITLE_ACTIVE);
+
+    window.Velocity(hideElement, 'stop');
+    window.Velocity(hideElement, 'transition.slideUpOut', {
+      display: 'none',
+      duration: 200,
+      complete: function () {
+        window.Velocity(showElement, 'transition.slideDownIn', {
+          duration: 200
+        });
       }
-    });
+    })
+    hideElement.classList.remove(SIDEBAR_BODY_ACTIVE);
+    showElement.classList.add(SIDEBAR_BODY_ACTIVE);
   }
-  </script>
-        <div class="section-box pisces">
-          <section class="section bg-color posts-expand slide-down-in">
-            
-  <article class="post-list-box  post box-shadow-wrapper">
-    <div class="article-wrapper bg-color">
-      <section class="post-header">
+
+  postToc && postToc.addEventListener('transitionend', function() {
+    this.classList.remove(SLIDE_UP_IN);
+  });
+
+  if (sidebarBody) {
+    if (sidebarBody.classList.contains('pisces') || sidebarBody.classList.contains('gemini')) {
+      let hasFix = false;
+      let scrollEl = document.querySelector('.main-continer');
+      let limitTop = document.querySelector('#nav_ul').children.length * 42 + 162;
+      window.addEventListener('scroll', function(e) {
+        if (document.scrollingElement.scrollTop >= limitTop) {
+          if (!hasFix) {
+            sidebar.classList.add('sidebar-fixed');
+            hasFix = true;
+          }
+        } else {
+          if (hasFix) {
+            sidebar.classList.remove('sidebar-fixed');
+            hasFix = false;
+          }
+        }
+      });
+    }
+  }
+  
+</script>
+        <div class="section-box box-shadow-wrapper">
+          <div class="section bg-color post post-page">
+            <section class="post-header">
   <h1 class="post-title">
     <a class="post-title-link" href="https://clancygo.github.io/春节观影吐槽（李焕英与唐探3）/">
       春节观影吐槽（李焕英与唐探3）
@@ -245,45 +279,71 @@
     
   </div>
 </section>
-      <div class="post-body">
-        
-        
-          
-        
-        
-        <div class="post-button text-center">
-          <a class="btn language" data-lan="read-more" href="https://clancygo.github.io/春节观影吐槽（李焕英与唐探3）/" rel="contents">
-            阅读全文 »
-          </a>
-        </div>
-        
-      </div>
+            <div class="post-body next-md-body" id="post_body">
+              <p><strong>提示：本文带有部分剧透，请谨慎食用！</strong></p>
+<p>今年春节看了两部电影，分别是《唐人街探案 3》（以下简称唐探 3） 及《你好，李焕英》（以下简称李焕英），总的来讲，这两部电影均属于喜剧范畴，但同时又融合其他元素，前者是侦探推理，后者是亲情怀旧，两部影片都有足够引人哄堂大笑的笑点，同时也有一些非常明显的硬伤。</p>
+<h1 id="模板化却迥然不同的喜剧风格">模板化却迥然不同的喜剧风格</h1>
+<p>这两部电影在塑造喜剧时用了完全不同的手法，如果要一决高下的话，我认为李焕英更好。唐探 3 的喜剧风格基本沿用唐探 2， 非常模板化，主要集中在唐仁这个角色上，具体手法无非就是唐仁的口音、各种变装、黄段子（带孩子或者父母去看需谨慎）、怀旧 BGM 等，倒不是说模板化完全不好，毕竟喜剧创作本身有一些通用技巧，只不过唐探 3 的喜剧表现方式较为传统，当然，也并非全程无亮点，一群人在医院转移尸体，最终在电梯里相遇的情景，兼顾紧张与搞笑，简直就是精简版《疯狂的石头》。</p>
+<p>李焕英这部电影的模板化体现在强烈的小品风格上，负责体现这种风格的主要是沈腾饰演的沈光林这个角色，小品中常见的笑点是金句，沈腾在宣传片中就抛出了「她叫焕英，我叫光林，我俩欢迎光临，听着多热情」这个谐音金句，再配上沈腾极具特色的表情，让人梦回春晚，还有一个让我印象比较深刻的小笑点，就是沈腾在电影院准备换座位的一幕，我们的视线随着镜头看着沈腾在一排观众前穿梭，就要到座位前的时候，另一哥们突然一屁股坐上去了（好吧，我描述得很枯燥），类似的场景也经常在小品中出现。</p>
+<h1 id="各自的硬伤">各自的硬伤</h1>
+<h2 id="糟糕的推理与俗套的叙事">糟糕的推理与俗套的叙事</h2>
+<p>从第一部至第三部，唐探系列的口碑呈直线下滑趋势，这其中的重要原因就是推理元素越来越弱，具体到唐探 3，因为观众与编剧的信息完全不对等，观看电影时就会产生以下情况：开场 5 分钟之内大概就可以猜到凶手，但是直到案情揭晓的最后时刻，观众都不可能拼凑出完整的事实，以上情况倒也可以理解，毕竟这种手法在侦探影视中并不少见，但是唐探 3 还存在另外一个更大的问题——其向观众隐藏起来的元素出现得极其不合理，比如托尼贾前往黑龙江绥化调查<strong>长泽雅美</strong>的身世，这成了解释作案动机的关键，但是为什么是绥化呢？最起码也要编个类似于「之前查到长泽雅美与绥化有某种关联」的剧情来铺垫一下吧，除此之外，车子里面的方巾也令人费解，简直在侮辱东京警察以及长泽雅美这个人物的智商，竟然放那么久都没人来拿。</p>
+<p>唐探 3 推理的另外一个问题是喜欢糊弄观众，剧中多次提到侦探小说以及相关名词，如「本格」<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>「三口棺材」<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>「犹大之窗」<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>，看起来非常硬核，但是结合前面说到的信息不对等的问题可知，唐探 3 并非本格派推理，也没有对人性的深刻反思，所以也无法划入社会派<sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>推理的范畴，所以当秦风在念叨着「本格」的时候，我只觉得陈思诚在故弄玄虚。另外，剧中还有一个较大的争议，即所谓的「第十四种密室」，部分推理迷认为陈思诚过于自大了，认为自己创造了一种全新的密室类型，我对推理了解不多，很难直接着手分析，查了一些资料，感觉有些复杂，有兴趣的可以自行探索。</p>
+<p>除了推理之外，唐探 3 还有一个问题就是叙事俗套，主要体现在神秘组织 Q 上，一群高智商人士躲在世界暗处纵横捭阖，审判世界，这是哪个年代的俗套叙事啊！比如至今仍在互联网流传的「罗斯柴尔家族」，还有所谓「奶头乐」的来源，都是这种叙事的体现，作为成年人，感觉这种设定实在是太过中二了。不过我猜想陈思诚可能是出于无奈，从电影网剧的联动来看，他正在试图打造「唐探宇宙」，而这种宇宙必须借助团体来实现，比如漫威宇宙的复仇者联盟。</p>
+<p>最后，唐探 3 还有一个看起来像是智商欠费的槽点，就是片中突然跳出的「和平精英五大灵童」，不多说了，史上最令人反胃的植入广告。</p>
+<h2 id="不够立体的母爱">不够立体的母爱</h2>
+<p>接下来要吐槽李焕英了，这部电影是基于真实人物拍摄的，从片尾对现实生活中的李焕英的介绍以及网络上相关人物的爆料来看，电影剧情与真实故事差别还是比较大的，但这不是重点，我关注的是剧中贾玲与李焕英之间的相处模式，我认为这应该是全剧应该重点着墨的地方，毕竟在一部以母爱为主题的电影中，作为导演以及故事亲历者，贾玲理应向观众展示更加真实的亲子关系，而在片中，李焕英在升学宴上发现贾玲伪造录取通知书之后竟然推着自行车笑笑就过去了，这显然过于脱离现实了，另外，无论成长中的贾玲学习如何不好，犯了什么错误，李焕英都毫无愠色，积极鼓励，整个母爱的表现手法非常单一且空洞，不断提醒我这只是一部电影，很难产生共鸣，但最终，我还是会觉得有些感动，这种感动主要基于「年轻时的母亲」这个元素，毕竟对于子女而言，父母的老去大概是亲情的最大敌人。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>本格推理，是推理小说的一种流派，又可称为正宗、正统、古典派或传统派。本格派可满足以解谜为乐趣的读者，通常尽可能地让读者和侦探站在一个平面上，拥有相同数量线索。部分本格推理小说中会有“向读者挑战”的宣言（例如艾勒里·昆恩），也就是告诉读者“到这里你已拥有足以解开谜题的线索”，挑战读者是否能与侦探一样解开谜题。因此，注重公平与理性逻辑，是本类型推理的特征。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>《三口棺材》（The Hollow Man），美国作家约翰·狄克森·卡尔所著的推理小说，1935年推出英国版时名为《The Hollow Man》，后来在美国出版时易名《The Three Coffins》。1981年，此书被选为最佳密室推理小说 。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn3" class="footnote-item"><p>同样为美国作家约翰·狄克森·卡尔的作品 <a href="#fnref3" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn4" class="footnote-item"><p>某种程度上为反对本格派“流于纸上谜题游戏”而生，强调推理小说不应只是推理，更应当反映并描写现实社会。 <a href="#fnref4" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+            </div>
+            
+            
+              <div class="post-footer">
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong class="language" data-lan="author">本文作者：</strong>
       
-        <footer class="post-footer">
-          <div class="post-eof"></div>
-        </footer>
+    </li>
+    <li class="post-copyright-link">
+      <strong class="language" data-lan="link">本文链接：</strong>
+      <a href="https://clancygo.github.io/春节观影吐槽（李焕英与唐探3）/" title="春节观影吐槽（李焕英与唐探3）">https://clancygo.github.io/春节观影吐槽（李焕英与唐探3）/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong class="language" data-lan="copyright">版权声明： </strong>
+      本博客所有文章除特别声明外，均采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fa fa-fw fa-creative-commons"></i> BY-NC-SA</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+  <div class="tags">
+    
+      <a href="https://clancygo.github.io/lGpNyfXWo/"># 日常</a>
+    
+  </div>
+  <div class="nav">
+    <div class="nav-prev">
       
     </div>
-  </article>
-  
-            
-            
-<div class="page bg-color">
-  <ul class="pagination-ul">
-    
-    
+    <div class="nav-next">
       
-        <li class="pagination-li pagination-active">
-            <a href="/page/../">
-              1
-            </a>
-        </li>
-      
-    
-    
-  </ul>
+    </div>
+  </div>
 </div>
-          </section>
+            
+            
+  
+
+          </div>
         </div>
       </div>
     </div>
@@ -496,6 +556,223 @@
     parent.insertBefore(aelem, next);
   })
 </script>
+    <div class="reward-mask" style="display: none;">
+  <div class="reward-relative">
+    <span class="close" aria-hidden="true">x</span>
+    <div class="reward-body">
+      <h2>感谢您的支持，我会继续努力的!</h2>
+      <div class="reward-img-box">
+        <div style="position: relative; width: 140px; height: 140px;">
+          
+          
+          
+        </div>
+      </div>
+      <p class="reward-word"></p>
+      <p class="reward-tip"></p>
+    </div>
+    <div class="bottom">
+      
+      
+    </div>
+  </div>
+</div>
+<style>
+  .reward-mask {
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #00000054;
+  }
+
+  .reward-relative {
+    position: relative;
+    width: 480px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 5px;
+    background-color: #fff;
+    top: 50%;
+    margin-top: -205px;
+  }
+
+  .reward-relative .close {
+    position: absolute;
+    right: 10px;
+    font-weight: normal;
+    font-size: 16px;
+    color: #929292;
+  }
+
+  .reward-body {
+    padding: 40px 20px 20px;
+  }
+
+  .bottom {
+    display: flex;
+  }
+
+  .reward-btn {
+    text-align: center;
+  }
+
+  .reward-btn-text {
+    display: inline-block;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    background-color: #ff9734;
+    color: #FFF;
+    margin-top: 20px;
+  }
+
+  .pay-text {
+    margin-top: 10px;
+    padding: 10px;
+    flex: 1;
+    transition: all .2s linear;
+  }
+
+  .pay-text:hover {
+    background-color: #a5a5a536;
+  }
+
+  .reward-body h2 {
+    padding-top: 10px;
+    text-align: center;
+    color: #a3a3a3;
+    font-size: 16px;
+    font-weight: normal;
+    margin: 0 0 20px;
+  }
+
+  .reward-body h2:after,
+  .reward-body h2:before {
+    font-family: Arial, Helvetica, sans-serif;
+    background: 0 0;
+    width: 0;
+    height: 0;
+    font-style: normal;
+    color: #eee;
+    font-size: 80px;
+    position: absolute;
+    top: 20px;
+  }
+
+  .reward-body h2:before {
+    content: '\201c';
+    left: 50px;
+  }
+
+  .reward-body h2:after {
+    content: '\201d';
+    right: 80px;
+  }
+
+  .reward-img-box {
+    display: inline-block;
+    padding: 10px;
+    border: 6px solid #ea5f00;
+    margin: 0 auto;
+    border-radius: 3px;
+    position: relative;
+  }
+
+  .reward-img {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (max-width: 767px) {
+    .reward-relative {
+      height: 100%;
+      top: 0px;
+      margin-top: 0;
+      width: auto;
+    }
+
+    .reward-relative .bottom {
+      flex-direction: column;
+    }
+
+    .reward-relative .pay-text {
+      width: 80%;
+      margin: 5px auto;
+      border: 1px solid silver;
+      padding: 6px;
+      border-radius: 4px;
+    }
+
+    .reward-body h2:after {
+      right: 40px;
+    }
+
+    .reward-body h2:after,
+    .reward-body h2:before {
+      font-size: 60px;
+    }
+
+    .reward-body h2:before {
+      left: 20px;
+    }
+  }
+</style>
+<script>
+  !function () {
+    var mask = document.querySelector('.reward-mask');
+    let close = document.querySelector('.reward-relative .close');
+    let rewardBtn = document.querySelector('.reward-btn');
+
+    let zfb = document.querySelector('#zfb'),
+      wx = document.querySelector('#wx'),
+      zfbBtn = document.querySelector('#zfbBtn'),
+      wxBtn = document.querySelector('#wxBtn');
+
+    if (zfbBtn && wxBtn) {
+      zfbBtn.addEventListener('click', () => {
+        window.Velocity(zfb, 'transition.slideLeftIn', {
+          duration: 400
+        });
+        window.Velocity(wx, 'transition.slideRightOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+
+      wxBtn.addEventListener('click', () => {
+        window.Velocity(wx, 'transition.slideRightIn', {
+          duration: 400
+        });
+        window.Velocity(zfb, 'transition.slideLeftOut', {
+          display: 'none',
+          duration: 400
+        });
+      });
+    }
+
+    rewardBtn.addEventListener('click', (e) => {
+      window.Velocity(mask, 'transition.slideDownIn', {
+        duration: 400
+      })
+    });
+
+    close.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.Velocity(mask, 'transition.slideUpOut', {
+        duration: 400
+      })
+    })
+  }()
+</script>
+
   </div>
 </body>
 
@@ -667,7 +944,6 @@
     speed: 200
   });
 </script>
-
 
 
 
